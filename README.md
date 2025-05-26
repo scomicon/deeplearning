@@ -46,6 +46,8 @@ export OPENAI_API_KEY="YOUR_OPENAI_API_KEY_HERE"
 ```
 Replace `"YOUR_TELEGRAM_BOT_TOKEN_HERE"` and `"YOUR_OPENAI_API_KEY_HERE"` with your actual tokens.
 
+**Important**: The bot will exit immediately with a critical error message in the logs if the `TELEGRAM_BOT_TOKEN` environment variable is not set or is empty. Ensure it is correctly configured before running the bot.
+
 To make these variables persistent across terminal sessions, you can add these lines to your shell's configuration file (e.g., `~/.bashrc`, `~/.zshrc`), then source the file (e.g., `source ~/.bashrc`).
 
 **For Windows:**
@@ -87,13 +89,14 @@ Once you have completed the setup steps:
 
 ## 5. Troubleshooting
 
-*   **Bot Not Responding / Authentication Errors**:
+*   **Bot Not Responding / Authentication Errors / Startup Failure**:
+    *   **`TELEGRAM_BOT_TOKEN` Missing**: The bot will exit immediately at startup with a critical error message in the logs if the `TELEGRAM_BOT_TOKEN` environment variable is not set or is empty. Ensure it is correctly configured before running the bot.
     *   **Check API Keys**: Double-check that your `TELEGRAM_BOT_TOKEN` and `OPENAI_API_KEY` are correct and do not have any typos or extra characters.
     *   **Environment Variables**:
         *   Verify that the environment variables are correctly set in the terminal session where you are running the bot. You can try printing them in your terminal (e.g., `echo $TELEGRAM_BOT_TOKEN` on Linux/macOS or `echo %TELEGRAM_BOT_TOKEN%` on Windows CMD) to see if they are loaded.
         *   Ensure the script can access them. The Python script uses `os.environ.get()`, which is the standard way.
     *   **OpenAI Account Status**: Ensure your OpenAI account is active and has available credits or a valid payment method if you are on a paid plan. Check the OpenAI dashboard for any notices.
-*   **"OpenAI API key is not configured" Message**: This means the `OPENAI_API_KEY` environment variable was not found by the script. Ensure it's set correctly (see "Environment Variables" section).
+*   **"WARNING: OPENAI_API_KEY environment variable not found..." Log Message / "OpenAI API key is not configured" Bot Reply**: This means the `OPENAI_API_KEY` environment variable was not found by the script. The bot will still run, but OpenAI features will be unavailable. Ensure it's set correctly if you want to use OpenAI integration (see "Environment Variables" section).
 *   **Dependency Issues / `ModuleNotFoundError`**:
     *   Make sure you have installed the dependencies using `pip install -r requirements.txt`.
     *   Consider using a Python virtual environment (`venv`) to manage dependencies and avoid conflicts.

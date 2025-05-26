@@ -3,6 +3,7 @@ import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import openai
 import logging
+import sys
 
 # Set up basic logging
 logging.basicConfig(level=logging.INFO,
@@ -67,6 +68,15 @@ def error_handler(update, context):
 
 def main():
     """Start the bot."""
+    # Critical check for Telegram Bot Token
+    if not TELEGRAM_BOT_TOKEN:
+        logger.critical("CRITICAL: TELEGRAM_BOT_TOKEN environment variable not found. Please set it before running the bot.")
+        sys.exit(1)
+
+    # Warning for OpenAI API Key
+    if not OPENAI_API_KEY:
+        logger.warning("WARNING: OPENAI_API_KEY environment variable not found. OpenAI features will be unavailable unless the key is set when a message is handled.")
+
     # Create the Updater and pass it your bot's token.
     updater = Updater(TELEGRAM_BOT_TOKEN, use_context=True)
 
